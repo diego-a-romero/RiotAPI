@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dados da Riot Games</title>
+</head>
+<body>
+    <h1>Insira seu Nickname:</h1>
+    <ul>
+        <form method="post">
+            {% csrf_token %}
+            <label for="summoner_name">Nome do Invocador:</label>
+            <input type="text" id="summoner_name" name="summoner_name">
+            <button type="submit">Buscar Jogos</button>
+        </form>
+    </ul>
+</body>
+</html>

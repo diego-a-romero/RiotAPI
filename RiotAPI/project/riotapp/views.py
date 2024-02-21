@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .riotdata import search_games_from_riot_api
 from .models import Game
 
+def success(request):
+    return HttpResponse("Dados inseridos com sucesso!")
 
 def show_games(request):
     games_list = Game.objects.all().order_by('-creation_time')  # Ordena os jogos pela data de criação
