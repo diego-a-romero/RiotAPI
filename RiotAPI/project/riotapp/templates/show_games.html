@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Últimas 20 Partidas</title>
+</head>
+<body>
+    <h1>Últimas 20 Partidas</h1>
+    <table border="1">
+        <tr>
+            <th>ID do Jogo</th>
+            <th>Campeão</th>
+            <th>Kills</th>
+            <th>Mortes</th>
+            <th>Assistências</th>
+            <th>Resultado</th>
+            <th>Data</th>
+        </tr>
+        {% for game in games %}
+        <tr>
+            <td>{{ game.game_id }}</td>
+            <td>{{ game.champion }}</td>
+            <td>{{ game.kills }}</td>
+            <td>{{ game.deaths }}</td>
+            <td>{{ game.assists }}</td>
+            <td>{{ game.win }}</td>
+            <td>{{ game.creation_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

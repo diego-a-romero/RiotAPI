@@ -1,18 +1,49 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .riotdata import search_games_from_riot_api
 from .models import Game
+from .riotdata import get_puuid, search_games_from_puuid, get_game_data, insert_data_from_matches
+from .forms import PlayerForm
 
 def success(request):
     return HttpResponse("Dados inseridos com sucesso!")
 
 def show_games(request):
-    games_list = Game.objects.all().order_by('-creation_time')  # Ordena os jogos pela data de criação
-    return render(request, 'show_games.html', {'games_list': games_list})
+    games = Game.objects.all().order_by('-creation_time')[:20]
+    return render(request, 'show_games.html', {'games': games})
 
 def insert_games(request):
-    if request.method == "POST":
-        summoner_name = request.POST.get('summoner_name')
-        search_games_from_riot_api(summoner_name)
-        return redirect('success_url')  # Redireciona para uma URL de sucesso após a inserção
-    return render(request, 'insert_games.html')
+    if request.method == 'POST':
+        form = PlayerForm(request.POST)
+        if form.is_valid():
+            summoner_name = form.cleaned_data['summoner_name']
+            riot_id = form.cleaned_data['riot_id']
+            api_key = "RGAPI-22eaf9d9-c0e2-45a9-8a26-d38dd74a7c2c"
+
+            puuid = get_puuid(summoner_name, riot_id, api_key)
+            print(puuid)
+
+            if puuid:
+                puuid = get_puuid(summoner_name, riot_id, api_key)
+                id_matches = search_games_from_puuid(puuid, api_key)
+                game_data = get_game_data(id_matches, api_key)
+                insert_data_from_matches(puuid, api_key, id_matches)
+                pass
+
+            return redirect('show_games')
+    else:
+        form = PlayerForm()
+
+    return render(request, 'insert_games.html', {'form': form})
+
+'''def insert_games(request):
+    if request.method == 'POST':
+        form = PlayerForm(request.POST)
+        if form.is_valid():
+            # Faça algo com os dados do formulário
+            summoner_name = form.cleaned_data['summoner_name']
+            riot_id = form.cleaned_data['riot_id']
+            # Aqui você pode enviar os dados para a API, salvar no banco de dados, etc.
+        return(redirect('show_games'))
+    else:
+        form = PlayerForm()
+    return render(request, 'insert_games.html', {'form': form})'''
