@@ -1,13 +1,14 @@
-<!-- Em insert_games.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inserir Dados do Jogador</title>
+    <title>LOL Data</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
 </head>
 <body>
-    <h2>Insira os dados do jogador:</h2>
+ <img src="{% static 'images/loldata-logo.png' %}" alt="logotipo" class="logo-image">
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

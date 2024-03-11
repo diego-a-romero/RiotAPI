@@ -4,8 +4,6 @@ from .models import Game
 from .riotdata import get_puuid, search_games_from_puuid, get_game_data, insert_data_from_matches
 from .forms import PlayerForm
 
-def success(request):
-    return HttpResponse("Dados inseridos com sucesso!")
 
 def show_games(request):
     games = Game.objects.all().order_by('-creation_time')[:20]
@@ -34,16 +32,3 @@ def insert_games(request):
         form = PlayerForm()
 
     return render(request, 'insert_games.html', {'form': form})
-
-'''def insert_games(request):
-    if request.method == 'POST':
-        form = PlayerForm(request.POST)
-        if form.is_valid():
-            # Faça algo com os dados do formulário
-            summoner_name = form.cleaned_data['summoner_name']
-            riot_id = form.cleaned_data['riot_id']
-            # Aqui você pode enviar os dados para a API, salvar no banco de dados, etc.
-        return(redirect('show_games'))
-    else:
-        form = PlayerForm()
-    return render(request, 'insert_games.html', {'form': form})'''

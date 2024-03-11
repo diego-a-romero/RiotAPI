@@ -16,10 +16,10 @@ class Game(models.Model):
     deaths = models.IntegerField()
     assists = models.IntegerField()
     wards = models.IntegerField()
-    duracao = models.IntegerField()
+    duracao = models.CharField(max_length=8)
     farm = models.IntegerField()
     ouro = models.IntegerField()
-    win = models.BooleanField()
+    win = models.CharField(max_length=4)
     creation_time = models.DateTimeField()
 
     def __str__(self):
